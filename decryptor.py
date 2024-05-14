@@ -3,6 +3,10 @@ from cryptography.fernet import Fernet
 
 # Função para desenciptar um arquivo
 def decrypt_file(filename, key):
+    # Obtém as permissões originais do arquivo antes da criptografia
+    original_permissions = os.stat(filename).st_mode
+    # Restaura as permissões originais do arquivo após a descriptografia
+    os.chmod(filename, original_permissions)
     fernet = Fernet(key)  # Inicializa um objeto Fernet com a chave fornecida
     with open(filename, "rb") as file:
         encrypted_data = file.read()  # Lê os dados encriptados
