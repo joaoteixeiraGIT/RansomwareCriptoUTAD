@@ -3,3 +3,17 @@ __pycache__/decryptor.cpython-311.pyc
 __pycache__/ransomware.cpython-311.pyc
 ransom_key.key
 __pycache__/encriptor.cpython-311.pyc
+build/ransomware/Analysis-00.toc
+build/ransomware/base_library.zip
+build/ransomware/EXE-00.toc
+build/ransomware/PKG-00.toc
+build/ransomware/PYZ-00.pyz
+build/ransomware/PYZ-00.toc
+build/ransomware/Tree-00.toc
+build/ransomware/Tree-01.toc
+build/ransomware/warn-ransomware.txt
+build/ransomware/xref-ransomware.html
+build/ransomware/localpycs/pyimod01_archive.pyc
+build/ransomware/localpycs/pyimod02_importers.pyc
+build/ransomware/localpycs/pyimod03_ctypes.pyc
+build/ransomware/localpycs/struct.pyc
