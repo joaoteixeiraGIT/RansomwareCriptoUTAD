@@ -2,3 +2,4 @@ venv/
 __pycache__/decryptor.cpython-311.pyc
 __pycache__/ransomware.cpython-311.pyc
 ransom_key.key
+__pycache__/encriptor.cpython-311.pyc

