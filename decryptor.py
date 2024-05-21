@@ -26,7 +26,3 @@ def decrypt_documents_directory(key):
         for file in files:
             file_path = os.path.join(root, file)  # Obtém o caminho completo do arquivo
             decrypt_file(file_path, key)  # Desencripta o arquivo 
-
-# Função para carregar a chave do arquivo
-def load_key(key_file):
-    return open(key_file, "rb").read()  # Lê e retorna a chave
